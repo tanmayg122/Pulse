@@ -876,6 +876,10 @@ if(S.visual==='calm')document.body.classList.add('calm');
 render(true);
 sampleP.then(()=>{if(claudeSample)panels()});
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+let DIP=null;const STANDALONE=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+function instBtn(show){let b=document.getElementById('instb');if(!show){b&&b.remove();return}if(b)return;b=document.createElement('button');b.id='instb';b.innerHTML='Install PULSE';b.style.cssText='position:fixed;left:50%;transform:translateX(-50%);bottom:96px;z-index:9999;background:#F4FF3A;color:#1A1023;border:2.5px solid #1A1023;box-shadow:3px 3px 0 #1A1023;border-radius:999px;padding:12px 22px;font:800 15px DM Sans,sans-serif';b.onclick=async()=>{if(!DIP)return;DIP.prompt();const r=await DIP.userChoice;DIP=null;instBtn(false)};document.body.appendChild(b)}
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();DIP=e;if(!STANDALONE)instBtn(true)});
+addEventListener('appinstalled',()=>{instBtn(false);try{toast('PULSE installed. Open it from your home screen')}catch(e){}});
 </script>
 </body>
 </html>
