@@ -202,7 +202,7 @@ body.calm .scr{filter:saturate(.42) contrast(.96)}
 .confetti{position:absolute;inset:0;pointer-events:none;z-index:95;overflow:hidden}
 .confetti i{position:absolute;top:-20px;width:10px;height:14px;animation:fall 1.8s ease-in forwards}
 @keyframes fall{to{transform:translateY(900px) rotate(720deg)}}
-.wipe{position:absolute;inset:0;z-index:85;pointer-events:none;background-image:radial-gradient(var(--c,#A544F2) 2.4px,transparent 2.6px);background-size:14px 14px;animation:wipe .55s cubic-bezier(.6,0,.3,1) forwards}
+.wipe{position:absolute;inset:0;z-index:85;pointer-events:none;background-image:radial-gradient(var(--c,#A544F2) 2.4px,transparent 2.6px);background-size:14px 14px;animation:wipe .33s cubic-bezier(.6,0,.3,1) forwards}
 @keyframes wipe{0%{clip-path:circle(0% at var(--x,50%) var(--y,95%));opacity:1}60%{clip-path:circle(150% at var(--x,50%) var(--y,95%));opacity:1}100%{clip-path:circle(150% at var(--x,50%) var(--y,95%));opacity:0}}
 .grid7{display:grid;grid-template-columns:40px repeat(4,1fr);gap:5px;font-size:11px}
 .grid7 .c{border:1.5px solid var(--ink);border-radius:9px;padding:6px 5px;background:#fff;min-height:44px;line-height:1.25;font-weight:600;text-align:left}
@@ -261,7 +261,7 @@ body.calm .scr{filter:saturate(.42) contrast(.96)}
  .top{padding-top:calc(env(safe-area-inset-top) + 18px)}
 }
 .tr{position:absolute;inset:0;z-index:150;display:grid;grid-template-columns:repeat(9,1fr);grid-auto-rows:calc(100% / 20);pointer-events:none;overflow:hidden}
-.tr i{display:block;width:100%;height:100%;border-radius:50%;background:var(--ink);transform:scale(0);transition:transform .2s cubic-bezier(.5,0,.4,1);transition-delay:var(--d)}
+.tr i{display:block;width:100%;height:100%;border-radius:50%;background:var(--ink);transform:scale(0);transition:transform .12s cubic-bezier(.5,0,.4,1);transition-delay:var(--d)}
 .tr.in i{transform:scale(1.62)}.tr.out i{transform:scale(0);transition-delay:var(--o)}
 .tr i:nth-child(7n+3){background:#2a1838}
 .card,.opt{isolation:isolate}
@@ -369,10 +369,10 @@ function sureness(){let n=0,s=0;Object.values(S.meals).forEach(m=>{if(m.st==='lo
 const fmt=n=>Math.round(n).toLocaleString('en-IN');
 const desc=items=>items.map(([id,q])=>`${q!==1?q+' ':''}${fd(id)[0].toLowerCase()}`).join(', ');
 const MAIN=['today','food','train','progress'];
-function wipe(col,x,y){$('#fx').insertAdjacentHTML('beforeend',`<div class="wipe" style="--c:${col};--x:${x}%;--y:${y}%"></div>`);setTimeout(()=>{const w=document.querySelector('.wipe');w&&w.remove()},600)}
-let TRB=false;function transit(fn){if(TRB||!document.getElementById('scr')){fn();return}TRB=true;const cols=9,rows=20;let h='';for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const d=(rows-1-r)*14+Math.random()*40,o=(rows-1-r)*10+Math.random()*30;h+=`<i style="--d:${d}ms;--o:${o}ms"></i>`}
- const el=document.createElement('div');el.className='tr';el.innerHTML=h;$('#scr').appendChild(el);[0,90,180].forEach(t=>setTimeout(()=>sfx('tick'),t));requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('in')));
- setTimeout(()=>{fn();el.classList.add('out');setTimeout(()=>{el.remove();TRB=false},560)},480)}
+function wipe(col,x,y){$('#fx').insertAdjacentHTML('beforeend',`<div class="wipe" style="--c:${col};--x:${x}%;--y:${y}%"></div>`);setTimeout(()=>{const w=document.querySelector('.wipe');w&&w.remove()},360)}
+let TRB=false;function transit(fn){if(TRB||!document.getElementById('scr')){fn();return}TRB=true;const cols=9,rows=20;let h='';for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const d=(rows-1-r)*8.4+Math.random()*24,o=(rows-1-r)*6+Math.random()*18;h+=`<i style="--d:${d}ms;--o:${o}ms"></i>`}
+ const el=document.createElement('div');el.className='tr';el.innerHTML=h;$('#scr').appendChild(el);[0,54,108].forEach(t=>setTimeout(()=>sfx('tick'),t));requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('in')));
+ setTimeout(()=>{fn();el.classList.add('out');setTimeout(()=>{el.remove();TRB=false},336)},288)}
 function go(p,opts={}){if(p!==S.page){S.hist.push(S.page);dir=1}S.modal=null;S.fan=false;transit(()=>{S.page=p;Object.assign(S,opts);render(true)})}
 function back(){dir=-1;S.modal=null;S.fan=false;const p=S.hist.pop()||'today';transit(()=>{S.page=p;render(true)})}
 function tab(p,i){if(S.page===p&&!S.modal){$('#vp').scrollTo({top:0,behavior:'smooth'});return}S.hist=[];dir=1;S.modal=null;S.fan=false;transit(()=>{S.page=p;render(true)})}
